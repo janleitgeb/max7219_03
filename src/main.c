@@ -1,10 +1,10 @@
 #include <stdbool.h>
 #include <stm8s.h>
-//#include <stdio.h>
+#include <stdio.h>
 #include "main.h"
 #include "milis.h"
 //#include "delay.h"
-//#include "uart1.h"
+#include "uart1.h"
 #include "max7219.h"
 
 #define DIN_PORT GPIOB
@@ -22,7 +22,7 @@ void init(void) {
     GPIO_Init(CLK_PORT, CLK_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
 
     init_milis();
-    // init_uart1();
+    init_uart1();
 }
 
 void display(uint8_t address, uint8_t data) {
@@ -62,7 +62,7 @@ void display(uint8_t address, uint8_t data) {
 int main(void) {
 
     uint32_t time = 0;
-    int8_t number = 0;
+    uint8_t number = 100;
 
     init();
 
@@ -83,7 +83,9 @@ int main(void) {
     while (1) {
         if (milis() - time > 333) {
             time = milis();
-            display(DIGIT0, number++);
+            display(DIGIT0, number);
+            printf("%u\n", number);
+            number++;
         }
     }
 }
